@@ -1,0 +1,73 @@
+bmcgehee/RubyUbuntuRbenvApp:
+  # This Basic Distelli Manifest assumes the following
+  # has been provisioned on the destination deploy server:
+  #
+  # OS: Ubuntu
+  #
+  
+  Env:
+    - PORT: 8007
+    - STAGE: production
+    
+  PreInstall:
+    - echo "Begin PreInstall"
+    - if [ -a ~/.rbenv/bin/rbenv ]; then
+    -   echo "rbenv already installed"
+    - else
+    -   echo "Installing rbenv"
+    -   sudo apt-get -y update
+    -   sudo apt-get -y install git curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
+    -   git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+    -   echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+    -   export PATH="$HOME/.rbenv/bin:$PATH"
+    -   echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+    -   set +e
+    -   eval "$(~/.rbenv/bin/rbenv init -)"
+    -   set -e
+    -   git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+    -   echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
+    -   export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
+    - fi
+    - set +e
+    - eval "$(~/.rbenv/bin/rbenv init -)"
+    - set -e
+    - VARRUBY="$(ruby -v || true)"
+    - if [[ ${VARRUBY:0:10} == "ruby 1.9.3" ]]; then
+    -   echo "ruby 1.9.3 exists"
+    - else
+    -   rbenv install -v 1.9.3-p551
+    -   rbenv global 1.9.3-p551
+    -   ruby -v
+    - fi
+    - if [ -a ~/.rbenv/shims/bundle ]; then
+    -   echo "bundle already installed"
+    - else
+    -   echo "Installing bundler"
+    -   gem install bundler
+    -   set +e
+    -   eval "$(~/.rbenv/bin/rbenv init -)"
+    -   set -e
+    - fi
+    
+  Exec: 
+    - echo "begin exec"
+    - set +e
+    - eval "$(~/.rbenv/bin/rbenv init -)"
+    - set -e
+    - exec ./bundle/bin/thin start -p $PORT -e $STAGE
+    - echo "end exec"
+    
+  PostInstall:
+    - echo "begin PostInstall"
+    - set +e
+    - eval "$(~/.rbenv/bin/rbenv init -)"
+    - set -e
+    - bundle install --binstubs $DISTELLI_APPHOME/bundle/bin --standalone --path $DISTELLI_APPHOME/bundle/lib
+    - echo "done PostInstall"
+    
+  PkgInclude:
+    - lib/simplerubyapp/*.rb
+    - Gemfile
+    - config.ru
+    - SimpleRubyApp.gemspec
+
