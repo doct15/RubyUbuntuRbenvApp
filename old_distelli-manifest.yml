@@ -11,32 +11,31 @@ bmcgehee/RubyUbuntuRbenvApp:
     
   PreInstall:
     - echo "Begin PreInstall"
-    - if [ -a ~/.rbenv/bin/rbenv ]; then
+    - VARBENV="$(which rbenv || true)"
+    - echo "rbenv is $VARBENV"
+    - if [ $VARBENV ]; then
     -   echo "rbenv already installed"
     - else
     -   echo "Installing rbenv"
     -   sudo apt-get -y update
     -   echo "update done"
     -   sudo apt-get -y install git curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
+    -   echo "===== beginning git clone ====="
     -   git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+    -   echo "===== begining export ====="
+    #-   pwd
+    #-   env
     -   echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
     -   export PATH="$HOME/.rbenv/bin:$PATH"
+    -   echo "===== beginning eval ====="
+    #-   pwd
+    #-   env
     -   echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
-    -   set +e
-    -   eval "$(~/.rbenv/bin/rbenv init -)"
-    -   set -e
+    -   eval "$(rbenv init -)"
     -   git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
     -   echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
     -   export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
     - fi
-    - echo "before eval"
-    - env
-    - echo "-----"
-    - set +e
-    - eval "$(~/.rbenv/bin/rbenv init -)"
-    - set -e
-    - echo "after eval"
-    - env
     - VARRUBY="$(ruby -v || true)"
     - if [[ ${VARRUBY:0:10} == "ruby 1.9.3" ]]; then
     -   echo "ruby 1.9.3 exists"
@@ -45,29 +44,20 @@ bmcgehee/RubyUbuntuRbenvApp:
     -   rbenv global 1.9.3-p551
     -   ruby -v
     - fi
-    - if [ -a ~/.rbenv/shims/bundle ]; then
-    -   echo "bundle already installed"
-    - else
-    -   echo "Installing bundler"
-    -   gem install bundler
-    -   set +e
-    -   eval "$(~/.rbenv/bin/rbenv init -)"
-    -   set -e
-    - fi
+    - VARBUNDLE="$(which bundle || true)"
+    - gem install bundler
+    - eval "$(rbenv init -)"
     
   Exec: 
-    - echo "begin exec"
-    - set +e
-    - eval "$(~/.rbenv/bin/rbenv init -)"
-    - set -e
     - exec ./bundle/bin/thin start -p $PORT -e $STAGE
-    - echo "end exec"
     
   PostInstall:
     - echo "begin PostInstall"
-    - set +e
-    - eval "$(~/.rbenv/bin/rbenv init -)"
-    - set -e
+    - pwd
+    - echo "----- -----"
+    - env
+    - echo "----- -----"
+    - eval "$(rbenv init -)"
     - bundle install --binstubs $DISTELLI_APPHOME/bundle/bin --standalone --path $DISTELLI_APPHOME/bundle/lib
     - echo "done PostInstall"
     
