@@ -10,10 +10,8 @@ bmcgehee/RubyUbuntuRbenvApp:
     - STAGE: production
     
   PreInstall:
-    #
-    #
     - sudo apt-get -y update
-    - sudo apt-get -y install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
+    - sudo apt-get -y install git curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
     - echo "===== beginning git clone ====="
     - git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
     - echo "===== begining export ====="
@@ -26,16 +24,9 @@ bmcgehee/RubyUbuntuRbenvApp:
     - env
     - echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
     - eval "$(rbenv init -)"
-    - echo "---- beginning $SHELL -----"
-    #- exec $SHELL
-    - echo "----- end SHELL -----"
-
     - git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
     - echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
     - export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
-    #- echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
-    #- export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
-    #- exec $SHELL
     - rbenv install -v 1.9.3-p551
     - rbenv global 1.9.3-p551
     - ruby -v
