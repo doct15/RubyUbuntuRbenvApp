@@ -33,11 +33,11 @@ bmcgehee/RubyUbuntuRbenvApp:
     - eval "$(~/.rbenv/bin/rbenv init -)"
     - set -e
     - VARRUBY="$(ruby -v || true)"
-    - if [[ ${VARRUBY:0:10} == "ruby 1.9.3" ]]; then
-    -   echo "ruby 1.9.3 exists"
+    - if [[ ${VARRUBY:0:10} == "ruby 2.2.3" ]]; then
+    -   echo "ruby 2.2.3 exists"
     - else
-    -   rbenv install -v 1.9.3-p551
-    -   rbenv global 1.9.3-p551
+    -   rbenv install -v 2.2.3
+    -   rbenv global 2.2.3
     -   ruby -v
     - fi
     - if [ -a ~/.rbenv/shims/bundle ]; then
