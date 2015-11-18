@@ -8,7 +8,7 @@ bmcgehee/RubyUbuntuRbenvApp:
   Env:
     - PORT: "8007"
     - STAGE: production
-    - PATH: "$PATH:$HOME/.rbenv/bin:$HOME/.rbenv/plugins/ruby-build/bin"
+    - PATH: "$PATH:$HOME/.rbenv/bin:$HOME/.rbenv/plugins/ruby-build/bin:$HOME/.rbenv/shims"
     
   PreInstall:
     - echo "Begin PreInstall"
