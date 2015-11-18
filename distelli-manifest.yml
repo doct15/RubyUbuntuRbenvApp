@@ -10,7 +10,7 @@ bmcgehee/RubyUbuntuRbenvApp:
     - STAGE: production
     - PATH: "$PATH:$HOME/.rbenv/bin:$HOME/.rbenv/plugins/ruby-build/bin:$HOME/.rbenv/shims"
     #- RUBY_VER: "2.2.3"
-    - RUBY_VER: "1.9.3"
+    - RUBY_VER: "1.9.3-p551"
     
   PreInstall:
     - echo "Begin PreInstall"
