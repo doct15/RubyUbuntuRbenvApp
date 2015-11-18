@@ -39,24 +39,25 @@ bmcgehee/RubyUbuntuRbenvApp:
     -   rbenv install -v 2.2.3
     -   rbenv global 2.2.3
     -   ruby -v
-    - fi
-    - if [ -a ~/.rbenv/shims/bundle ]; then
-    -   echo "bundle already installed"
-    - else
-    -   echo "Installing bundler"
     -   gem install bundler
-    -   set +e
-    -   eval "$(~/.rbenv/bin/rbenv init -)"
-    -   set -e
     - fi
+    #- if [ -a ~/.rbenv/shims/bundle ]; then
+    #-   echo "bundle already installed"
+    #- else
+    #-   echo "Installing bundler"
+    #-   gem install bundler
+    #-   set +e
+    #-   eval "$(~/.rbenv/bin/rbenv init -)"
+    #-   set -e
+    #- fi
     
   Exec: 
-    - echo "begin exec"
-    - set +e
-    - eval "$(~/.rbenv/bin/rbenv init -)"
-    - set -e
+    #- echo "begin exec"
+    #- set +e
+    #- eval "$(~/.rbenv/bin/rbenv init -)"
+    #- set -e
     - exec ./bundle/bin/thin start -p $PORT -e $STAGE
-    - echo "end exec"
+    #- echo "end exec"
     
   PostInstall:
     - echo "begin PostInstall"
