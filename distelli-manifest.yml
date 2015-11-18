@@ -6,7 +6,7 @@ bmcgehee/RubyUbuntuRbenvApp:
   #
   
   Env:
-    - PORT: 8007
+    - PORT: "8007"
     - STAGE: production
     
   PreInstall:
